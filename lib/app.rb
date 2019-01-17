@@ -12,6 +12,13 @@ require_relative 'list.rb'
   config.access_token_secret = ENV["TWITTER_ACCESS_TOKEN_SECRET"]
 end
 
+@client = Twitter::Streaming::Client.new do |config|
+    config.consumer_key        = ENV["TWITTER_CONSUMER_KEY"]
+    config.consumer_secret     = ENV["TWITTER_CONSUMER_SECRET"]
+    config.access_token        = ENV["TWITTER_ACCESS_TOKEN"]
+    config.access_token_secret = ENV["TWITTER_ACCESS_TOKEN_SECRET"]
+end
+
 
 def send_tweet(n , list)
 		nlist = []
@@ -49,6 +56,29 @@ def like_bonjour
 	end
 	puts "Done!"
 end
+
+def follow_users(n, hashtag)
+	print "Following"
+  @client.search("#{hashtag}", result_type: "recent").take(n).each do |tweet|
+    if tweet.user != 'Princy97380047'
+    	@client.follow(tweet.user) 
+    	print "."
+    else
+    	next
+    end
+  end
+  puts "Done!"
+end
+
+def take_their_id(n, hashtag)
+	id_list = []
+	print "Recupering"
+	i = 0
+	id_list = @client.search("#{hashtag}", result_type: "random").take(n)
+  puts "Done!"
+  puts id_list.inspect 	
+end
+
 
 #send_tweet_to('@jo_rakoto',"#bonjour_monde")
 #send_tweet(5, List)
