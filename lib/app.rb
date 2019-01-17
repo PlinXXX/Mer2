@@ -12,7 +12,7 @@ require_relative 'list.rb'
   config.access_token_secret = ENV["TWITTER_ACCESS_TOKEN_SECRET"]
 end
 
-streaming_client = Twitter::Streaming::Client.new do |config|
+@streaming_client = Twitter::Streaming::Client.new do |config|
     config.consumer_key        = ENV["TWITTER_CONSUMER_KEY"]
     config.consumer_secret     = ENV["TWITTER_CONSUMER_SECRET"]
     config.access_token        = ENV["TWITTER_ACCESS_TOKEN"]
@@ -55,7 +55,6 @@ def like_bonjour
 		print "."
 	end
 	puts "Done!"
-	return 0
 end
 
 def follow_users(n, hashtag)
