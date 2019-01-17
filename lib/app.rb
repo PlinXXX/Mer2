@@ -12,7 +12,7 @@ require_relative 'list.rb'
   config.access_token_secret = ENV["TWITTER_ACCESS_TOKEN_SECRET"]
 end
 
-@client = Twitter::Streaming::Client.new do |config|
+streaming_client = Twitter::Streaming::Client.new do |config|
     config.consumer_key        = ENV["TWITTER_CONSUMER_KEY"]
     config.consumer_secret     = ENV["TWITTER_CONSUMER_SECRET"]
     config.access_token        = ENV["TWITTER_ACCESS_TOKEN"]
@@ -55,6 +55,7 @@ def like_bonjour
 		print "."
 	end
 	puts "Done!"
+	return 0
 end
 
 def follow_users(n, hashtag)
@@ -79,8 +80,21 @@ def take_their_id(n, hashtag)
   puts id_list.inspect 	
 end
 
+def like_those(hashtag)
+  @streaming_client.filter(track: "#{hashtag}") do |tweet|   
+    @client.fav tweet
+  end
+end
 
-#send_tweet_to('@jo_rakoto',"#bonjour_monde")
+def follow_those(hashtag)
+  @streaming_client.filter(track: "#{hashtag}") do |tweet|
+    @client.follow(tweet.user)
+  end
+end
+
 #send_tweet(5, List)
+#send_tweet_to('@jo_rakoto',"#bonjour_monde")
 #like_bonjour
-#@client.follow("the_hacking_pro")
+#follow_users(3, #bonjour_monde)
+#like_those("#bonjour_monde")
+#follow_those("#bonjour_monde")

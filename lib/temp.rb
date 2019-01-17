@@ -19,9 +19,3 @@ end
   config.access_token_secret = ENV["TWITTER_ACCESS_TOKEN_SECRET"]
 end
 
-def like_those(hashtag)
-  @streaming_client.filter(track: "#{hashtag}") do |tweet|   
-    @client.fav tweet
-  end
-end
-like_those("#bonjour_monde")
